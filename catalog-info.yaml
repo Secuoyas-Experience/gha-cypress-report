@@ -1,0 +1,16 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: gha-cypress-report
+  description: Github action para generar el informe de Cypress
+  annotations:
+    github.com/project-slug: Secuoyas-Experience/gha-cypress-report
+    backstage.io/techdocs-ref: dir:.
+  links:
+    - url: https://github.com/Secuoyas-Experience/gha-cypress-report
+      title: Secuoyas Cypress Report Github Action
+spec:
+  type: library
+  owner: infrastructure
+  system: Secuoyas-Experience
+  lifecycle: production
