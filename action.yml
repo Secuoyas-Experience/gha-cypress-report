@@ -56,7 +56,11 @@ runs:
 
     - name: move screenshots to root
       shell: bash
-      run: mv cypress/screenshots ./mochawesome-report
+      run: |
+        mkdir ./mochawesome-report/cypress
+        mv ./mochawesome-report/assets ./mochawesome-report/cypress
+        mv ./mochawesome-report/report.html ./mochawesome-report/cypress
+        mv cypress/screenshots ./mochawesome-report/cypress
 
     - name: archive-report-artifacts
       uses: actions/upload-artifact@v4
