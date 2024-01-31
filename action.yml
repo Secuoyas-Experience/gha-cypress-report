@@ -40,12 +40,12 @@ runs:
         path: /home/runner/_work/${{ github.event.repository.name }}/${{ github.event.repository.name }}/.cache
         key: cache-v1-${{ steps.extract_branch.outputs.branch }}-${{ hashFiles('yarn.lock') }}
 
-    # downloads all artifacts into ./cypress dir
     - name: get-artifacts
       uses: actions/download-artifact@v4
       with:
+        path: cypress
+        pattern: cypress-*
         merge-multiple: true
-        path: ./cypress/
 
     - name: report-merger
       shell: bash
