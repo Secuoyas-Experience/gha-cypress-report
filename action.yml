@@ -54,6 +54,10 @@ runs:
         npm run report:generate
         npm run report:merge
 
+    - name: move screenshots to root
+      shell: bash
+      run: mv cypress/screenshots ./mochawesome-report
+
     - name: archive-report-artifacts
       uses: actions/upload-artifact@v4
       if: always()
