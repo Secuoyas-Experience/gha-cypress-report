@@ -50,11 +50,12 @@ runs:
 
     - name: move screenshots to root
       shell: bash
+      # cypress/screenshots only exists when some spec failed
       run: |
         mkdir ./mochawesome-report/cypress
         mv ./mochawesome-report/assets ./mochawesome-report/cypress
         mv ./mochawesome-report/report.html ./mochawesome-report/cypress
-        mv cypress/screenshots ./mochawesome-report/cypress
+        if [ -d cypress/screenshots ]; then mv cypress/screenshots ./mochawesome-report/cypress; fi
 
     - name: archive-report-artifacts
       uses: actions/upload-artifact@v4
