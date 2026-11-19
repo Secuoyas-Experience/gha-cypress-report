@@ -2,18 +2,22 @@
 
 ![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/Secuoyas-Experience/gha-cypress-report)
 
-Esta accion permite generar el informe final de los tests de Cypress que se han ejecutado anteriormente con el action `Secuoyas-Experience/gha-cypress-run`.
+Esta acción genera el informe final (Mochawesome) de los tests de Cypress ejecutados antes con [Secuoyas-Experience/gha-cypress-run](https://github.com/Secuoyas-Experience/gha-cypress-run): baja todos los artefactos `cypress-*`, junta los resultados y las capturas y sube el informe como artefacto `report-merged`.
 
-## Documentacion
+## Requisitos
 
-## Inputs
+Desde la `v10` usa `actions/checkout@v7`, `actions/cache@v6`, `actions/download-artifact@v8` y `actions/upload-artifact@v7`, que se ejecutan con Node.js 24: el runner tiene que ser la versión 2.327.1 o posterior. Con `download-artifact@v8`, un artefacto cuyo hash no cuadre hace fallar el job (antes solo avisaba).
 
-- **cache-path**: (opcional) path donde se encuentra la cache de Cypress (.cache/Cypress)
-- **retention**: (opcional) cuantos dias se debe guardar el informe generado
+El proyecto tiene que definir los scripts `report:generate` y `report:merge` en su `package.json`.
 
-## Usage
+## Entradas
 
-En el siguiente ejemplo se muestra como utilizar el action `gha-cypress-report` despues de ejecutar los tests de cypress.
+- **cache-path**: (opcional) ruta de la caché de Cypress (por defecto `.cache/Cypress`).
+- **retention**: (opcional) días que se guarda el informe (por defecto 2).
+
+## Uso
+
+En el siguiente ejemplo se usa `gha-cypress-report` después de ejecutar los tests de Cypress:
 
 ```yaml
 name: cypress-job
@@ -29,35 +33,19 @@ jobs:
     ...
 
   cypress-report:
-    runs-on: toolbox-griddo-qa
+    runs-on: griddo-qa
+    if: ${{ !cancelled() }}
     needs:
       - cypress-tests
     steps:
-      - uses: Secuoyas-Experience/gha-cypress-report@v1
+      - uses: Secuoyas-Experience/gha-cypress-report@v10
 ```
 
-Tambien se puede cambiar los parametros de cache de Cypress y de retencion de los informes
+También se pueden cambiar la ruta de la caché de Cypress y los días que se guarda el informe:
 
 ```yaml
-name: cypress-job
-
-on:
-  workflow_dispatch:
-
-jobs:
-  cypress-cache:
-    ...
-
-  cypress-tests:
-    ...
-
-  cypress-report:
-    runs-on: toolbox-griddo-qa
-    needs:
-      - cypress-tests
-    steps:
-      - uses: Secuoyas-Experience/gha-cypress-report@v1
+      - uses: Secuoyas-Experience/gha-cypress-report@v10
         with:
           retention: 4
-          cypress-cache: /path/to/cache
+          cache-path: /path/to/cache
 ```
